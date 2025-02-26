@@ -1,6 +1,3 @@
-import mapboxgl from 'https://cdn.jsdelivr.net/npm/mapbox-gl@2.15.0/+esm';
-import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
-
 mapboxgl.accessToken =
     'pk.eyJ1IjoiZTNsYXUiLCJhIjoiY203bDAzbXAzMDZleTJub2MzYWF6bXp6MCJ9.cdMI-K1otFRO2yLYREEZtw';
 
@@ -61,8 +58,16 @@ map.on('load', () => {
         paint: paintLineStyle
     });
 
-    const jsonurl = 'https://dsc106.com/labs/lab07/data/bluebikes-stations.json';
     const svg = d3.select('#map').select('svg');
+    const jsonurl = 'https://dsc106.com/labs/lab07/data/bluebikes-stations.json';
+
+    const timeSlider = document.getElementById('time-slider');
+    const selectedTime = document.getElementById('selected-time');
+    const anyTimeLabel = document.getElementById('any-time');
+
+    var trips = [];
+    let stations = [];
+    let stationFlow = d3.scaleQuantize().domain([0, 1]).range([0, 0.5, 1]);
 
     d3.json(jsonurl)
         .then(jsonData => {
@@ -89,14 +94,6 @@ map.on('load', () => {
         });
 
     const tripsURL = 'https://dsc106.com/labs/lab07/data/bluebikes-traffic-2024-03.csv';
-
-    const timeSlider = document.getElementById('time-slider');
-    const selectedTime = document.getElementById('selected-time');
-    const anyTimeLabel = document.getElementById('any-time');
-
-    var trips = [];
-    let stations = [];
-    let stationFlow = d3.scaleQuantize().domain([0, 1]).range([0, 0.5, 1]);
 
     d3.csv(tripsURL)
         .then(data => {
