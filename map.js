@@ -37,6 +37,18 @@ function formatTime(minutes) {
     return date.toLocaleString('en-US', { timeStyle: 'short' });
 }
 
+function getBubbleColor(station) {
+    if (station.totalTraffic === 0) return 'gray';
+    const ratio = station.departures / station.totalTraffic;
+    if (Math.abs(ratio - 0.5) < 0.05) {
+        return 'pink';
+    } else if (ratio > 0.5) {
+        return 'steelblue';
+    } else {
+        return 'darkorange';
+    }
+}
+
 map.on('load', () => {
     map.addSource('boston_route', {
         type: 'geojson',
@@ -77,7 +89,7 @@ map.on('load', () => {
                 .attr('stroke', 'white')
                 .attr('stroke-width', 1)
                 .attr('opacity', 0.8)
-                .style('--departure-ratio', d => stationFlow(d.departures / d.totalTraffic));
+                .attr('fill', d => getBubbleColor(d));
             updatePositions();
             map.on('move', updatePositions);
             map.on('zoom', updatePositions);

@@ -40,18 +40,11 @@ body {
     fill-opacity: 0.6;
 }
 
-/* We'll define two CSS custom properties for color mixing:
-   --departure-ratio is set per circle/station
-   --color-departures, --color-arrivals define the endpoints. */
 :root {
     --color-departures: steelblue;
     --color-arrivals: darkorange;
 }
 
-/* Use color-mix() (CSS Color Module Level 5). 
-   The in oklch syntax may or may not be fully supported in all browsers, 
-   but it’s a nice modern approach. You can also do color-mix(in srgb, ...) 
-   if you hit a browser that lacks oklch. */
 #map svg circle {
     --color: color-mix(in oklch,
             var(--color-departures) calc(100% * var(--departure-ratio)),
