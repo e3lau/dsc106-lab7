@@ -40,7 +40,7 @@ body {
     fill-opacity: 0.6;
 }
 
-#map svg circle {
+#map svg circle, .legend {
     --color-departures: steelblue;
     --color-arrivals: darkorange;
     --color: color-mix(in oklch,
