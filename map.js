@@ -1,5 +1,5 @@
-import mapboxgl from 'https://cdn.jsdelivr.net/npm/mapbox-gl@2.15.0/+esm';
-import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
+// import mapboxgl from 'https://cdn.jsdelivr.net/npm/mapbox-gl@2.15.0/+esm';
+// import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
 mapboxgl.accessToken =
     'pk.eyJ1IjoiZTNsYXUiLCJhIjoiY203bDAzbXAzMDZleTJub2MzYWF6bXp6MCJ9.cdMI-K1otFRO2yLYREEZtw';
@@ -35,18 +35,6 @@ function updatePositions() {
 function formatTime(minutes) {
     const date = new Date(0, 0, 0, 0, minutes);
     return date.toLocaleString('en-US', { timeStyle: 'short' });
-}
-
-function getBubbleColor(station) {
-    if (station.totalTraffic === 0) return 'gray';
-    const ratio = station.departures / station.totalTraffic;
-    if (Math.abs(ratio - 0.5) < 0.05) {
-        return 'pink';
-    } else if (ratio > 0.5) {
-        return 'steelblue';
-    } else {
-        return 'darkorange';
-    }
 }
 
 map.on('load', () => {
@@ -89,7 +77,7 @@ map.on('load', () => {
                 .attr('stroke', 'white')
                 .attr('stroke-width', 1)
                 .attr('opacity', 0.8)
-                .attr('fill', d => getBubbleColor(d));
+                .style('--departure-ratio', d => stationFlow(d.departures / d.totalTraffic));
             updatePositions();
             map.on('move', updatePositions);
             map.on('zoom', updatePositions);
